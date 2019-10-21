@@ -1,5 +1,6 @@
 package com.premise.weatherapp.ui
 
+import android.Manifest
 import android.app.Activity
 import android.util.Log
 import android.view.View
@@ -14,19 +15,32 @@ import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 import android.content.ContextWrapper
 import android.content.Context
+import android.content.pm.PackageManager
+import android.location.Location
 import android.os.Handler
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import com.google.android.gms.location.FusedLocationProviderClient
 import com.premise.weatherapp.model.InputLocationForm
+import java.text.NumberFormat
 
 
 class InputLocationViewModel : BaseViewModel() {
 
+    companion object {const val PREMISE_PERMISSIONS_REQUEST_LOCATION_ACCESS = 46}
+
     @Inject
     lateinit var weatherApi: WeatherApi
+
+    @Inject
+    var locationProvider: FusedLocationProviderClient? =null
 
     var inputLocationForm: InputLocationForm? = InputLocationForm()
 
     private lateinit var subscription: Disposable
+
+    private val latlonregex = "-?[0-9]{1,2}\\.[0-9]{1,8},-?[0-9]{1,3}\\.[0-9]{1,8}".toRegex()
 
     override fun onCleared() {
         super.onCleared()
@@ -56,6 +70,28 @@ class InputLocationViewModel : BaseViewModel() {
         }
     }
 
+    //called by the xml input page location button.
+    //we check if we have location permissions and if not request them
+    fun currentLocationClickListener(view: View)
+    {
+        val activity = scanForActivity(view.context)?:return
+        if(ContextCompat.checkSelfPermission(activity,Manifest.permission.ACCESS_COARSE_LOCATION)!=PackageManager.PERMISSION_GRANTED)
+        {
+            ActivityCompat.requestPermissions(activity,
+                arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION),
+                PREMISE_PERMISSIONS_REQUEST_LOCATION_ACCESS)
+            return
+        }
+
+        val nf = NumberFormat.getNumberInstance()
+        nf.maximumFractionDigits = 3
+        locationProvider?.lastLocation
+            ?.addOnSuccessListener { location : Location? ->
+                // Got last known location. In some rare situations this can be null.
+                inputLocationForm?.setInputText("${nf.format(location?.latitude)},${nf.format(location?.longitude)}")
+            }
+    }
+
     fun goButtonClickListener(view: View, inputText: String) {
         //We want to close the keyboard if we can manage whenever the go button is clicked
         //we cannot assume the view context is an activity
@@ -66,14 +102,25 @@ class InputLocationViewModel : BaseViewModel() {
         context.run { hideKeyboard(this) }
 
 
-        //The bellow method does not seem to be the most common way to invoke rxjava with retrofit.
-        //The standard way was taking much more time and for some reason the network calls were
-        //not working.
-        //I had to just move on with a solution I am not completely satisfied with and needs
-        //some refactoring.
-        //Since RxJava is actually deprecated, refactoring to Kotlin Coroutines would be optimal
         if (inputText.isNotEmpty()) {
-            weatherApi.searchLocationId(inputText)
+
+            //getting a bit fancy with this variable assignment
+            //it is not the most readable code. If the input text derived from
+            //user input or auto location detection matches lat lon pattern,
+            //then we use diffrent query parameters in the api call to look up
+            //the nearest weather station
+           var (query, lattlon)= when (latlonregex.matches(inputText)){
+                true-> arrayOf(null,inputText)
+                else -> arrayOf(inputText,null)
+            }
+
+            //The bellow method does not seem to be the most common way to invoke rxjava with retrofit.
+            //The standard way was taking much more time and for some reason the network calls were
+            //not working.
+            //I had to just move on with a solution I am not completely satisfied with and needs
+            //some refactoring.
+            //Since RxJava is actually deprecated, refactoring to Kotlin Coroutines would be optimal
+            weatherApi.searchLocationId(query,lattlon)
                 .subscribe(object : Observer<List<LocationLookupResult>> {
                     override fun onSubscribe(d: Disposable) {}
 
