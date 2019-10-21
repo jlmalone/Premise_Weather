@@ -4,9 +4,9 @@ This project showcases some features in a hypothetical Android Weather App.
 
 It was build with an MVVM Architecture using xml binding expressions, ViewModel, Observers for the ViewModel interactions.
 
-For the networking it employs RxJava to mitigate calls with Retrofit/OkHttp with network logging.
+For the networking it employs RxJava to handle api calls with Retrofit/OkHttp.
 
-It uses Navigation Components, the Android equivalent of iOS Storyboards, to switch between fragments while using just a sigle activity.
+Navigation Components, the Android equivalent of iOS Storyboards, performs switching between fragments while using a sigle activity for the entire app.
 
 This app can accept arbitrary place name or lat lon coordinates as text and it will lookup the nearest matching Weather Station ID. It then fetches a 5 Day forcast.
 
