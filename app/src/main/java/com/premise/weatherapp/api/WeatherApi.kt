@@ -25,8 +25,7 @@ interface WeatherApi {
      *
      */
     @GET("/api/location/search/?query=san")
-    fun searchLocationId(@Query("query") query: String): Observable<List<LocationLookupResult>>
-
+    fun searchLocationId(@Query("query") query: String? =null  , @Query("lattlong") latlon:String? = null): Observable<List<LocationLookupResult>>
 
     /**
      *
