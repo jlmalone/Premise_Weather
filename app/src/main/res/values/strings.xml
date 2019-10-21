@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Premise Weather</string>
+    <string name="input_location_hint">Location: e.g. Seattle</string>
 </resources>
