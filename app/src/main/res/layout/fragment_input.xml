@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="com.premise.weatherapp.R"/>
+        <import type="androidx.navigation.Navigation"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusable="true"
+        android:theme="@style/AppTheme"
+        android:focusableInTouchMode="true">
+
+        <Toolbar
+            android:layout_width="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:title="@string/app_name"
+            android:layout_height="wrap_content"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/guideline"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.25"/>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/guideline"
+            android:orientation="horizontal">
+
+            <EditText android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/input_location_hint"
+                android:id="@+id/input_location_edittext"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="16dp"
+                />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
