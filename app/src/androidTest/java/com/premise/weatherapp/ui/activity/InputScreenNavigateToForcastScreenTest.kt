@@ -20,7 +20,7 @@ import org.mockito.Mockito.verify
  * using Robolectric).
  */
 @RunWith(AndroidJUnit4::class)
-class InputScreenTest {
+class InputScreenNavigateToForcastScreenTest {
 
     @Test
     fun test1() {
