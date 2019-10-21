@@ -1,5 +1,13 @@
 package com.premise.weatherapp.model
 
+import android.graphics.drawable.Drawable
+import com.premise.weatherapp.PremiseWeatherApplication
+import com.premise.weatherapp.R
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.math.roundToInt
+
 
 data class WeatherDay(
     var id: Long?,
@@ -17,4 +25,71 @@ data class WeatherDay(
     var humidity: Double?,
     var visibility: Double?,
     var predictability: Double?
-)
+) {
+
+    companion object {
+        val outputSdf = SimpleDateFormat("EEEE", Locale.US)
+        val inputSdf = SimpleDateFormat("yyyy-MM-dd")
+    }
+
+    fun displayPressure():String?{
+        if(air_pressure==null) return null
+        return air_pressure?.toInt().toString()+"mb Pressure"
+    }
+
+    fun displayConfidence():String?{
+        if(predictability==null) return null
+
+        return predictability?.toInt().toString()+"% Confidence"}
+
+
+    fun displayHumidity():String?{
+        if(humidity==null) return null
+        return humidity?.toInt().toString()+"% Humidity"
+    }
+
+    fun  displayTemperature():String {return "${the_temp?.roundToInt()}"+Typography.degree+" C"}
+
+    fun dayOfWeek(): String? {
+        applicable_date?.run {
+            try {
+                var date = inputSdf.parse(applicable_date)
+                var out = outputSdf.format(date).substring(0..2)
+                return out
+            } catch (e: ParseException) {
+            }
+        }
+        return applicable_date
+    }
+
+    fun getWeatherImageResource():Drawable?{
+        val ret =  when(weather_state_abbr){
+            "sn" -> R.drawable.ic_weather_snowy_black_48dp
+            "sl" -> R.drawable.ic_weather_snowy_rainy_black_48dp
+            "h" -> R.drawable.ic_weather_hail_black_48dp
+            "t" -> R.drawable.ic_weather_lightning_rainy_black_48dp
+            "hr" -> R.drawable.ic_weather_pouring_black_48dp
+            "lr" -> R.drawable.ic_weather_rainy_black_48dp
+            "s" -> R.drawable.ic_weather_partly_rainy_black_48dp
+            "hc" ->R.drawable.ic_cloud_black_48dp
+            "lc" ->R.drawable.ic_cloud_outline_black_48dp
+            "c" -> R.drawable.ic_white_balance_sunny_black_48dp
+            else -> R.drawable.ic_cloud_black_48dp
+        }
+        return PremiseWeatherApplication.instance?.getDrawable(ret).also { it?.setTint(PremiseWeatherApplication.instance?.resources?.getColor(R.color.colorPrimary)?:0) }
+    }
+}
+
+
+//val ret =  when(weather_state_abbr){
+//    "sn" -> R.drawable.weather_snowy
+//    "sl" -> R.drawable.weather_snowy_rainy
+//    "h" -> R.drawable.weather_hail
+//    "t" -> R.drawable.weather_lightning_rainy
+//    "hr" -> R.drawable.weather_pouring
+//    "lr" -> R.drawable.weather_rainy
+//    "s" -> R.drawable.weather_partly_rainy
+//    "hc" ->R.drawable.ic_cloud_black_48dp
+//    "lc" ->R.drawable.cloud_outline
+//    "c" -> R.drawable.white_balance_sunny
+//    else -> R.drawable.cloud_outline
