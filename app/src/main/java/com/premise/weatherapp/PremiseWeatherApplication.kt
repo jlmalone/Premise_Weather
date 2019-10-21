@@ -6,7 +6,6 @@ import timber.log.Timber
 @Suppress("unused")
 class PremiseWeatherApplication : Application() {
 
-
     companion object{
         var  instance : PremiseWeatherApplication? = null
     }

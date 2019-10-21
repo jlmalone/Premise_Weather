@@ -30,31 +30,21 @@
                 android:text="@{@string/location_label_info(inputViewModel.inputLocationForm.locationReturnedResult.title,  inputViewModel.inputLocationForm.locationReturnedResult.latt_long)}"
                 android:textSize="20sp"
                 app:layout_constraintTop_toTopOf="parent" />
-        <TextView
-                android:layout_width="wrap_content"
-                android:id="@+id/time_updated"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="16dp"
-                android:textSize="10sp"
-                app:layout_constraintTop_toBottomOf="@id/info"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:text="@{@string/last_updated(forecastViewModel.forcastForm.updatedTimestampString)}"
-                android:layout_height="wrap_content"/>
+
 
         <View
                 android:id="@+id/divider"
                 android:layout_width="match_parent"
                 android:layout_height="1.5dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="8dp"
                 android:background="@color/light_grey"
-                app:layout_constraintTop_toBottomOf="@id/time_updated" />
+                app:layout_constraintTop_toBottomOf="@id/info" />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:id="@+id/swipeContainer"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/divider_bottom"
                 app:layout_constraintTop_toBottomOf="@id/divider"
                 app:onRefreshListener="@{() -> forecastViewModel.onRefresh()}"
                 app:refreshing="@{forecastViewModel.isLoading()}">
@@ -124,5 +114,26 @@
         <!--android:layout_marginStart="16dp"-->
         <!--/>-->
         <!--</LinearLayout>-->
+
+        <View
+            android:id="@+id/divider_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:layout_marginBottom="8dp"
+            android:background="@color/light_grey"
+            app:layout_constraintBottom_toTopOf="@id/time_updated" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/time_updated"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="16dp"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:text="@{@string/last_updated(forecastViewModel.forcastForm.updatedTimestampString)}"
+            android:layout_height="wrap_content"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

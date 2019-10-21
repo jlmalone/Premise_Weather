@@ -33,7 +33,6 @@ class InputLocationViewModel : BaseViewModel() {
     @Inject
     lateinit var weatherApi: WeatherApi
 
-    @Inject
     var locationProvider: FusedLocationProviderClient? =null
 
     var inputLocationForm: InputLocationForm? = InputLocationForm()
@@ -42,12 +41,14 @@ class InputLocationViewModel : BaseViewModel() {
 
     private val latlonregex = "-?[0-9]{1,2}\\.[0-9]{1,8},-?[0-9]{1,3}\\.[0-9]{1,8}".toRegex()
 
-    override fun onCleared() {
+    override fun onCleared()
+    {
         super.onCleared()
         subscription.dispose()
     }
 
-    fun hideKeyboard(activity: Activity) {
+    private fun hideKeyboard(activity: Activity)
+    {
         val imm: InputMethodManager = activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         //Find the currently focused view, so we can grab the correct window token from it.
         var view: View? = activity.currentFocus
@@ -92,24 +93,24 @@ class InputLocationViewModel : BaseViewModel() {
             }
     }
 
-    fun goButtonClickListener(view: View, inputText: String) {
+    fun goButtonClickListener(view: View, inputText: String?)
+    {
         //We want to close the keyboard if we can manage whenever the go button is clicked
         //we cannot assume the view context is an activity
         val context = scanForActivity(view.context)
-        var looper = context?.mainLooper?:return
+        val looper = context?.mainLooper?:return
 
         val mainHandler = Handler(looper)
         context.run { hideKeyboard(this) }
 
-
-        if (inputText.isNotEmpty()) {
+        if (inputText?.isNotEmpty() == true) {
 
             //getting a bit fancy with this variable assignment
             //it is not the most readable code. If the input text derived from
             //user input or auto location detection matches lat lon pattern,
             //then we use diffrent query parameters in the api call to look up
             //the nearest weather station
-           var (query, lattlon)= when (latlonregex.matches(inputText)){
+           val (query, lattlon)= when (latlonregex.matches(inputText?:"")){
                 true-> arrayOf(null,inputText)
                 else -> arrayOf(inputText,null)
             }
@@ -134,11 +135,7 @@ class InputLocationViewModel : BaseViewModel() {
                                 Navigation.findNavController(view)
                                     .navigate(R.id.action_input_to_forecastFragment)
                             } else {
-                                Toast.makeText(
-                                    view.context,
-                                    "No location Could be found",
-                                    Toast.LENGTH_LONG
-                                ).show()
+                                Toast.makeText(view.context,"No location Could be found", Toast.LENGTH_LONG).show()
                             }
                         }
                         mainHandler.post(myRunnable)
@@ -147,11 +144,7 @@ class InputLocationViewModel : BaseViewModel() {
                     override fun onError(e: Throwable) {
 
                         val myRunnable = Runnable {
-                            Toast.makeText(
-                                view.context,
-                                "it didnt work " + e.localizedMessage,
-                                Toast.LENGTH_LONG
-                            ).show()
+                            Toast.makeText(view.context,"it didnt work " + e.localizedMessage, Toast.LENGTH_LONG).show()
                             Log.v("WtF", "it didnt work " + e.localizedMessage)
                         }
 
