@@ -26,43 +26,14 @@
             android:layout_marginStart="16dp"
             android:orientation="horizontal">
 
-
-            <!--        <LinearLayout-->
-            <!--            android:layout_width="wrap_content"-->
-            <!--            android:gravity="start"-->
-            <!--            android:orientation="vertical"-->
-            <!--            android:layout_height="match_parent">-->
-
-            <!--            <Space-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_weight="1"-->
-            <!--                android:layout_height="0dp"/>-->
-
-
-            <!--        </LinearLayout>-->
-
-
-            <!--        app:loadImage="@{imageUrl}"-->
-
             <RelativeLayout
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|start"
-
                 android:orientation="vertical">
 
-                <!--                <View-->
-                <!--                    android:layout_width="64dp"-->
-                <!--                    android:background="@{weatherDay.getWeatherImageResource()}"-->
-                <!--                    android:layout_centerInParent="true"-->
-                <!--                    android:layout_alignParentStart="true"-->
-                <!--                    android:id="@+id/image"-->
-                <!--                    android:layout_height="64dp"/>-->
-
                 <ImageView
-
                     android:id="@+id/image"
-
                     android:layout_width="64dp"
                     android:layout_height="64dp"
                     android:layout_alignParentStart="true"
@@ -72,10 +43,8 @@
                     android:adjustViewBounds="true"
                     android:minHeight="32dp"
                     android:src="@{weatherDay.getWeatherImageResource()}"
-
                     tools:ignore="ContentDescription"
                     tools:src="@drawable/white_balance_sunny" />
-
 
                 <TextView
                     android:id="@+id/weather"
@@ -88,7 +57,6 @@
                     android:gravity="bottom"
                     android:text="@{weatherDay.weather_state_name}"
                     tools:text="Cloudy" />
-
 
             </RelativeLayout>
 
@@ -117,7 +85,6 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="16dp"
                 android:gravity="end"
-
                 android:orientation="vertical">
 
                 <Space
@@ -128,12 +95,10 @@
                 <TextView
                     android:id="@+id/pressure"
                     android:layout_width="wrap_content"
-
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:text="@{weatherDay.displayPressure()}"
                     tools:text="Pressure: 453 mBarr" />
-
 
                 <Space
                     android:layout_width="match_parent"
@@ -148,12 +113,10 @@
                     android:text="@{weatherDay.displayConfidence()}"
                     tools:text="Confidence 87 %" />
 
-
                 <Space
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1" />
-
 
                 <TextView
                     android:id="@+id/humidity"
@@ -168,7 +131,6 @@
                     android:layout_height="0dp"
                     android:layout_weight="1" />
             </LinearLayout>
-
 
             <TextView
                 android:id="@+id/day"
@@ -188,10 +150,6 @@
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_marginTop="8dp"
-
             android:background="@color/light_grey" />
-
-
     </LinearLayout>
-
 </layout>
