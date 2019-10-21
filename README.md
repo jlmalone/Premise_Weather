@@ -19,3 +19,8 @@ The visual design has not been addressed. It is a work in progress and Glide Ima
 A suite of Espresso tests are included to ensure basic functionality of the happy path use case. 
 
 After Story-2 merge, a dependency conflict I have not had a chance to debug is preventing the test suite from running. 
+
+
+https://www.metaweather.com/api/
+
+The metaweather API powers this app. 
