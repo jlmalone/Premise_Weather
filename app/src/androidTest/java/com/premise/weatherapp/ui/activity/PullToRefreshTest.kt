@@ -1,6 +1,5 @@
 package com.premise.weatherapp.ui.activity
 
-
 import android.view.View
 import android.view.ViewGroup
 import androidx.test.espresso.Espresso.onView
@@ -23,6 +22,10 @@ import org.junit.runner.RunWith
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.UiController
 
+/**
+ * Pull to Refresh Espresso test. Performs a Pull to Refresh action with a custom
+ * constraint to guarantee a proper pull. Then ensure the list has been refreshed with a new item
+ */
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 class PullToRefreshTest {
