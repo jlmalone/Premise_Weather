@@ -43,13 +43,23 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="16dp"
                 />
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="8dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_my_location"
+                android:onClick="@{view -> inputViewModel.currentLocationClickListener(view)}"
+                android:id="@+id/location_detection_button"
+                />
             <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:id="@+id/go"
                 android:text="@string/enter"
                 android:onClick="@{view -> inputViewModel.goButtonClickListener(view,inputViewModel.inputLocationForm.inputText) }"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="8dp"
                 />
 
         </LinearLayout>
