@@ -5,6 +5,9 @@
     <data>
         <import type="com.premise.weatherapp.R"/>
         <import type="androidx.navigation.Navigation"/>
+        <variable
+            name="inputViewModel"
+            type="com.premise.weatherapp.ui.InputLocationViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -36,6 +39,15 @@
                 android:layout_weight="1"
                 android:hint="@string/input_location_hint"
                 android:id="@+id/input_location_edittext"
+                android:text="@={inputViewModel.inputLocationForm.inputText}"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="16dp"
+                />
+            <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:id="@+id/go"
+                android:text="@string/enter"
+                android:onClick="@{view -> inputViewModel.goButtonClickListener(view,inputViewModel.inputLocationForm.inputText) }"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="16dp"
                 />

@@ -6,10 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 
 
 import com.premise.weatherapp.R
 import com.premise.weatherapp.databinding.FragmentInputBinding
+import com.premise.weatherapp.ui.InputLocationViewModel
 
 
 /**
@@ -17,11 +19,19 @@ import com.premise.weatherapp.databinding.FragmentInputBinding
  */
 class InputFragment : Fragment() {
 
+    private lateinit var viewModel: InputLocationViewModel
 
     private lateinit var binding: FragmentInputBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_input, container, false)
         return binding.root
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel = ViewModelProviders.of(activity!!).get(InputLocationViewModel::class.java)
+        binding.inputViewModel = viewModel
+
     }
 }

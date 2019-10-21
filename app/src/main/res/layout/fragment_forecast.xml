@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="com.premise.weatherapp.R" />
+        <import type="androidx.navigation.Navigation" />
+        <variable
+                name="inputViewModel"
+                type="com.premise.weatherapp.ui.InputLocationViewModel" />
+        <variable
+                name="forecastViewModel"
+                type="com.premise.weatherapp.ui.ForecastViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:theme="@style/AppTheme">
+
+        <TextView
+                android:id="@+id/info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="@{@string/location_label_info(inputViewModel.inputLocationForm.locationReturnedResult.title,  inputViewModel.inputLocationForm.locationReturnedResult.latt_long)}"
+                android:textSize="20sp"
+                app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+                android:layout_width="wrap_content"
+                android:id="@+id/time_updated"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="16dp"
+                android:textSize="10sp"
+                app:layout_constraintTop_toBottomOf="@id/info"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:text="@{@string/last_updated(forecastViewModel.forcastForm.updatedTimestampString)}"
+                android:layout_height="wrap_content"/>
+
+        <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="1.5dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/light_grey"
+                app:layout_constraintTop_toBottomOf="@id/time_updated" />
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/swipeContainer"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/divider"
+                app:onRefreshListener="@{() -> forecastViewModel.onRefresh()}"
+                app:refreshing="@{forecastViewModel.isLoading()}">
+
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+        <!--        &lt;!&ndash; TODO: Update blank fragment layout &ndash;&gt;-->
+        <!--        <TextView-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:id="@+id/location_id_display"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--                android:text="@{inputViewModel.inputLocationForm.inputText}"/>-->
+
+
+        <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.5" />
+
+        <!-- TODO: Update blank fragment layout -->
+        <!--        <TextView-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:id="@+id/center"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                app:layout_constraintBottom_toBottomOf="@id/guideline"-->
+        <!--                android:text="@{inputViewModel.inputLocationForm.locationReturnedResult.latt_long}"/>-->
+
+        <!--<androidx.recyclerview.widget.RecyclerView android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!---->
+        <!--android:id="@+id/recycler">-->
+        <!---->
+        <!--</androidx.recyclerview.widget.RecyclerView>-->
+
+        <!--<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"-->
+        <!--app:layout_constraintBottom_toTopOf="@+id/guideline"-->
+        <!--android:orientation="horizontal">-->
+
+        <!--<EditText android:layout_width="0dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1"-->
+        <!--android:hint="@string/input_location_hint"-->
+        <!--android:id="@+id/input_location_edittext"-->
+        <!--android:text="@{inputViewModel.inputLocationForm.inputFields.inputText}"-->
+        <!--android:layout_gravity="center_vertical"-->
+        <!--android:layout_marginStart="16dp"-->
+        <!--app:onFocus="@{inputViewModel.getOnLocationFocusChangeListener()}"-->
+        <!--/>-->
+
+        <!--<Button android:layout_width="wrap_content" android:layout_height="wrap_content"-->
+        <!--android:layout_marginEnd="16dp"-->
+        <!--android:id="@+id/go"-->
+        <!--android:text="@string/enter"-->
+        <!--android:onClick="@{view -> Navigation.findNavController(view).navigate(R.id.action_input_to_forecastFragment)}"-->
+        <!--android:layout_gravity="center_vertical"-->
+        <!--android:layout_marginStart="16dp"-->
+        <!--/>-->
+        <!--</LinearLayout>-->
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

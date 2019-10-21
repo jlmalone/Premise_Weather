@@ -4,7 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@+id/inputFragment">
-    <fragment android:id="@id/inputFragment" android:name="com.premise.weatherapp.ui.fragment.InputFragment">
 
+    <fragment android:id="@id/inputFragment" android:name="com.premise.weatherapp.ui.fragment.InputFragment">
+        <action android:id="@+id/action_input_to_mapFragment" app:destination="@id/mapFragment"/>
+        <action android:id="@+id/action_input_to_forecastFragment" app:destination="@id/forecastFragment"/>
+        <action android:id="@+id/action_input_to_errorFragment" app:destination="@id/errorFragment"/>
+    </fragment>
+    <fragment android:id="@+id/mapFragment" android:name="com.premise.weatherapp.ui.fragment.MapFragment" android:label="fragment_map"
+        tools:layout="@layout/fragment_map">
+        <action android:id="@+id/action_mapFragment_to_forecastFragment" app:destination="@id/forecastFragment"/>
+        <action android:id="@+id/action_mapFragment_to_input" app:destination="@id/inputFragment"/>
+    </fragment>
+    <fragment android:id="@+id/forecastFragment" android:name="com.premise.weatherapp.ui.fragment.ForecastFragment"
+        android:label="fragment_forecast" tools:layout="@layout/fragment_forecast">
+        <action android:id="@+id/action_forecastFragment_to_errorFragment" app:destination="@id/errorFragment"/>
+        <!--        <action android:id="@+id/action_forecastFragment_to_input" app:destination="@id/inputFragment"/>-->
+        <argument android:name="locationId" app:argType="string"/>
+        <argument android:name="locationName" app:argType="string"/>
+    </fragment>
+    <fragment android:id="@+id/errorFragment" android:name="com.premise.weatherapp.ui.fragment.ErrorFragment"
+        android:label="fragment_error" tools:layout="@layout/fragment_error">
+        <action android:id="@+id/action_errorFragment_to_input" app:destination="@id/inputFragment"/>
     </fragment>
 </navigation>
