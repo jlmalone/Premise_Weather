@@ -1,13 +1,13 @@
 package com.premise.weatherapp.model
 
 import android.graphics.drawable.Drawable
+import android.os.Build
 import com.premise.weatherapp.PremiseWeatherApplication
 import com.premise.weatherapp.R
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.roundToInt
-
 
 data class WeatherDay(
     var id: Long?,
@@ -29,7 +29,7 @@ data class WeatherDay(
 
     companion object {
         val outputSdf = SimpleDateFormat("EEEE", Locale.US)
-        val inputSdf = SimpleDateFormat("yyyy-MM-dd")
+        val inputSdf = SimpleDateFormat("yyyy-MM-dd", Locale.US)
     }
 
     fun displayPressure():String?{
@@ -51,11 +51,13 @@ data class WeatherDay(
     fun  displayTemperature():String {return "${the_temp?.roundToInt()}"+Typography.degree+" C"}
 
     fun dayOfWeek(): String? {
-        applicable_date?.run {
+        val applicableDateCopy = applicable_date
+        applicableDateCopy?.run {
             try {
-                var date = inputSdf.parse(applicable_date)
-                var out = outputSdf.format(date).substring(0..2)
-                return out
+                val date = inputSdf.parse(applicableDateCopy)
+                if(date!=null) {
+                    return outputSdf.format(date).substring(0..2)
+                }
             } catch (e: ParseException) {
             }
         }
@@ -76,20 +78,11 @@ data class WeatherDay(
             "c" -> R.drawable.ic_white_balance_sunny_black_48dp
             else -> R.drawable.ic_cloud_black_48dp
         }
-        return PremiseWeatherApplication.instance?.getDrawable(ret).also { it?.setTint(PremiseWeatherApplication.instance?.resources?.getColor(R.color.colorPrimary)?:0) }
+        return PremiseWeatherApplication.instance?.getDrawable(ret).also {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                it?.setTint(PremiseWeatherApplication.instance
+                    ?.resources?.getColor(R.color.colorPrimary,null)?:0)
+            }
+        }
     }
 }
-
-
-//val ret =  when(weather_state_abbr){
-//    "sn" -> R.drawable.weather_snowy
-//    "sl" -> R.drawable.weather_snowy_rainy
-//    "h" -> R.drawable.weather_hail
-//    "t" -> R.drawable.weather_lightning_rainy
-//    "hr" -> R.drawable.weather_pouring
-//    "lr" -> R.drawable.weather_rainy
-//    "s" -> R.drawable.weather_partly_rainy
-//    "hc" ->R.drawable.ic_cloud_black_48dp
-//    "lc" ->R.drawable.cloud_outline
-//    "c" -> R.drawable.white_balance_sunny
-//    else -> R.drawable.cloud_outline
